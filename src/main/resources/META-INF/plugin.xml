@@ -19,14 +19,14 @@
     <projectService serviceImplementation="ga.rugal.intellij.monitor.configuration.Setting"/>
     <!-- Configurable preference -->
     <projectConfigurable
-      displayName="Hotcode Plugin"
-      id="hotcode.configuration"
+      displayName="System Monitor"
+      id="ga.rugal.intellij.monitor"
       instance="ga.rugal.intellij.monitor.configuration.PluginConfigurable"
       parentId="tools"
     />
 
     <statusBarWidgetFactory
-      implementation="ga.rugal.intellij.monitor.ui.SystemStatusBarFactory"/>
+      implementation="ga.rugal.intellij.monitor.ui.SystemUsageBarFactory"/>
     <!-- service-->
   </extensions>
 

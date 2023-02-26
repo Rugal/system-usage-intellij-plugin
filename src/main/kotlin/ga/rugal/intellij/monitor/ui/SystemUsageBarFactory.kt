@@ -5,7 +5,7 @@ import com.intellij.openapi.wm.StatusBar
 import com.intellij.openapi.wm.StatusBarWidget
 import com.intellij.openapi.wm.StatusBarWidgetFactory
 
-class SystemStatusBarFactory : StatusBarWidgetFactory {
+class SystemUsageBarFactory : StatusBarWidgetFactory {
   override fun getId(): String = "rugal.monitor.status-bar.factory"
 
   override fun getDisplayName(): String = "System Resource Usage"
@@ -13,7 +13,7 @@ class SystemStatusBarFactory : StatusBarWidgetFactory {
   override fun isAvailable(project: Project): Boolean = true
 
   override fun createWidget(project: Project): StatusBarWidget {
-    return SystemStatusBar()
+    return SystemUsagePanel()
   }
 
   override fun disposeWidget(widget: StatusBarWidget) {

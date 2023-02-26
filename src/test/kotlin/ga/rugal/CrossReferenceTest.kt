@@ -4,6 +4,7 @@ import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.psi.xml.XmlFile
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import com.intellij.util.PsiErrorElementUtil
+import oshi.SystemInfo
 
 class CrossReferenceTest : BasePlatformTestCase() {
 
@@ -29,5 +30,12 @@ class CrossReferenceTest : BasePlatformTestCase() {
     assertNotNull(xmlFile.rootTag)
 
     assertEquals("bar", xmlFile.rootTag!!.value.text)
+  }
+
+  fun testMemory() {
+    val memory = SystemInfo().hardware.memory
+    val total = memory.total shr 30
+    println("$total")
+    assertTrue(total > 0)
   }
 }
