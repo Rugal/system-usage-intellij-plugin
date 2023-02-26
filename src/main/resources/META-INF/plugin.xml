@@ -1,0 +1,34 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+  <id>ga.rugal.intellij.system-status-monitor</id>
+  <vendor email="this@rug.al" url="https://rug.al">
+    冰杰翎出品
+  </vendor>
+
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.lang</depends>
+  <depends>com.intellij.modules.xml</depends>
+  <depends>org.jetbrains.plugins.terminal</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- error reporting-->
+    <errorHandler implementation="ga.rugal.intellij.monitor.exception.ErrorSubmitter"/>
+    <!-- project post startup-->
+    <postStartupActivity implementation="ga.rugal.intellij.monitor.messaging.listener.EnvironmentDetector"/>
+    <!-- persistent setting-->
+    <projectService serviceImplementation="ga.rugal.intellij.monitor.configuration.Setting"/>
+    <!-- Configurable preference -->
+    <projectConfigurable
+      displayName="Hotcode Plugin"
+      id="hotcode.configuration"
+      instance="ga.rugal.intellij.monitor.configuration.PluginConfigurable"
+      parentId="tools"
+    />
+    <!-- service-->
+  </extensions>
+
+  <projectListeners>
+    <listener class="ga.rugal.intellij.monitor.messaging.listener.DebugModeListener"
+              topic="ga.rugal.intellij.monitor.messaging.DebugModeChangeNotifier"/>
+  </projectListeners>
+</idea-plugin>

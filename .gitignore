@@ -1,0 +1,11 @@
+.gradle
+.idea
+.qodana
+build
+gradlew
+gradlew.bat
+.DS_Store
+.vscode
+codeintelligence
+workspace-java
+openapi-collection
