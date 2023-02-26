@@ -24,6 +24,9 @@
       instance="ga.rugal.intellij.monitor.configuration.PluginConfigurable"
       parentId="tools"
     />
+
+    <statusBarWidgetFactory
+      implementation="ga.rugal.intellij.monitor.ui.SystemStatusBarFactory"/>
     <!-- service-->
   </extensions>
 

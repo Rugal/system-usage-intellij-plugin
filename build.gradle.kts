@@ -31,6 +31,8 @@ repositories {
 dependencies {
   implementation(kotlin("stdlib"))
 
+  implementation("com.github.oshi:oshi-core:6.4.0")
+
   implementation("org.slf4j:slf4j-api:2.0.3")
   implementation("org.slf4j:slf4j-simple:2.0.6")
 

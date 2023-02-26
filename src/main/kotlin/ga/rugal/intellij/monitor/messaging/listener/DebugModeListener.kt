@@ -5,6 +5,7 @@ import ga.rugal.intellij.common.service.PluginPropertyService
 import ga.rugal.intellij.monitor.messaging.DebugModeChangeNotifier
 import com.intellij.diagnostic.DebugLogManager
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.wm.impl.status.widget.StatusBarWidgetsManager
 
 class DebugModeListener : DebugModeChangeNotifier {
 
