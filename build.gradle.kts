@@ -29,7 +29,7 @@ dependencies {
 
   implementation("com.github.oshi:oshi-core:6.4.0")
 
-  implementation("org.slf4j:slf4j-api:2.0.3")
+  implementation("org.slf4j:slf4j-api:2.0.5")
   implementation("org.slf4j:slf4j-simple:2.0.6")
 
   testImplementation(kotlin("test"))
@@ -63,6 +63,13 @@ intellij {
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
   version.set(project.version.toString())
+}
+
+if (hasProperty("buildScan")) {
+  extensions.findByName("buildScan")?.withGroovyBuilder {
+    setProperty("termsOfServiceUrl", "https://gradle.com/terms-of-service")
+    setProperty("termsOfServiceAgree", "yes")
+  }
 }
 
 tasks {
