@@ -33,3 +33,9 @@ jobs:
       with:
         gradle-version: current
         arguments: build buildPlugin
+    - name: Upload distribution
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-distribution
+        path: build/distributions
+
