@@ -10,11 +10,12 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.progress.impl.BackgroundableProcessIndicator
 import com.intellij.util.Consumer
+import ga.rugal.intellij.monitor.service.github.IssueService
 
 class ErrorSubmitter : ErrorReportSubmitter() {
   private val LOG = Logger.getInstance(this::class.java)
 
-  override fun getReportActionText(): String = "Submit to Rugal Bernstein"
+  override fun getReportActionText(): String = "Submit to Rugal"
 
   override fun submit(
     events: Array<out IdeaLoggingEvent>,
@@ -24,11 +25,12 @@ class ErrorSubmitter : ErrorReportSubmitter() {
   ): Boolean {
     ProgressManager.getInstance().run {
       runProcessWithProgressAsynchronously(
-        object : Task.Backgroundable(null, "问题上报至疑修库", false) {
+        object : Task.Backgroundable(null, "Report to GitHub issue", false) {
           override fun run(indicator: ProgressIndicator) {
+            IssueService.create(events[0], additionalInfo ?: "Plugin user report")
           }
         },
-        BackgroundableProcessIndicator(null, "问题上报中", "cancel", "tooltips", false)
+        BackgroundableProcessIndicator(null, "Reporting", "cancel", "tooltips", false)
       )
     }
     return true

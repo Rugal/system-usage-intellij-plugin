@@ -32,6 +32,8 @@ dependencies {
   implementation("org.slf4j:slf4j-api:2.0.5")
   implementation("org.slf4j:slf4j-simple:2.0.6")
 
+  implementation("org.kohsuke:github-api:1.313")
+
   testImplementation(kotlin("test"))
 }
 
@@ -132,5 +134,11 @@ tasks {
       pushToRemote.set("origin")
       signTag.set(false)
     }
+  }
+
+  val copyIdeaProperties by registering(Copy::class) {
+    dependsOn(build)
+    from(layout.projectDirectory.file("idea.properties"))
+    into(layout.buildDirectory.dir("idea-sandbox/config"))
   }
 }

@@ -6,6 +6,11 @@ import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.StoragePathMacros
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
+import com.intellij.util.xmlb.annotations.Transient
+import ga.rugal.intellij.common.service.PluginPropertyService
+import org.kohsuke.github.GHRepository
+import org.kohsuke.github.GitHub
+import org.kohsuke.github.GitHubBuilder
 
 @State(name = "SystemStatusMonitorSetting", storages = [(Storage(value = StoragePathMacros.WORKSPACE_FILE))])
 class Setting(val project: Project) : PersistentStateComponent<Setting.State> {
@@ -25,5 +30,12 @@ class Setting(val project: Project) : PersistentStateComponent<Setting.State> {
   data class State(
     var debugMode: Boolean = false,
   ) {
+    private val github: GitHub = GitHubBuilder().withOAuthToken(PluginPropertyService.get("github.token")).build()
+    private val repo: GHRepository =
+      github.getRepositoryById(PluginPropertyService.get("github.repository.id").toLong())
+
+    @get:Transient
+    val repository: GHRepository
+      get() = this.repo
   }
 }
