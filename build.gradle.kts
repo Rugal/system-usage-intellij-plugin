@@ -22,9 +22,6 @@ version = "${pluginVersion}-${channel}"
 // Configure project's dependencies
 repositories {
   mavenLocal()
-  maven("https://maven.aliyun.com/repository/jcenter")
-  maven("https://maven.aliyun.com/repository/central")
-  maven("https://maven.aliyun.com/repository/public")
   mavenCentral()
 }
 
