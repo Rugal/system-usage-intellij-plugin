@@ -1,12 +1,12 @@
 package ga.rugal.intellij.monitor.configuration
 
 import javax.swing.JComponent
-import ga.rugal.intellij.common.service.PluginPropertyService
-import ga.rugal.intellij.monitor.configuration.ui.PreferenceUI
-import ga.rugal.intellij.monitor.messaging.DebugModeChangeNotifier
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.options.Configurable
+import ga.rugal.intellij.common.service.PluginPropertyService
+import ga.rugal.intellij.monitor.configuration.ui.PreferenceUI
+import ga.rugal.intellij.monitor.messaging.DebugModeChangeNotifier
 
 class PluginConfigurable : Configurable {
   private val LOG = Logger.getInstance(this::class.java)
