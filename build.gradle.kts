@@ -2,9 +2,6 @@ import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 
 fun properties(key: String) = project.findProperty(key).toString()
-val pluginGroup: String by project
-val pluginVersion: String by project
-val channel: String by project
 
 plugins {
   java
@@ -19,8 +16,7 @@ plugins {
 
 }
 
-group = pluginGroup
-version = "${pluginVersion}-${channel}"
+group = properties("group")
 
 // Configure project's dependencies
 repositories {
@@ -129,20 +125,5 @@ tasks {
       pushToRemote.set("origin")
       signTag.set(false)
     }
-  }
-
-  signPlugin {
-    certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-    privateKey.set(System.getenv("PRIVATE_KEY"))
-    password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
-  }
-
-  publishPlugin {
-    dependsOn("patchChangelog")
-    token.set(System.getenv("PUBLISH_TOKEN"))
-    // pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
-    // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
-    // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
-    channels.set(listOf(properties("channel")))
   }
 }
