@@ -14,6 +14,9 @@ plugins {
   id("org.jetbrains.intellij") version "1.13.0"
   // Gradle Changelog Plugin
   id("org.jetbrains.changelog") version "2.0.0"
+  // release plugin
+  id("net.researchgate.release") version "3.0.2"
+
 }
 
 group = pluginGroup
@@ -112,6 +115,20 @@ tasks {
     systemProperty("ide.mac.message.dialogs.as.sheets", "false")
     systemProperty("jb.privacy.policy.text", "<!--999.999-->")
     systemProperty("jb.consents.confirmation.enabled", "false")
+  }
+
+  release {
+    failOnCommitNeeded.set(true)
+    failOnSnapshotDependencies.set(true)
+    tagTemplate.set("v${version}")
+    versionPropertyFile.set("gradle.properties")
+    snapshotSuffix.set("-SNAPSHOT")
+
+    git {
+      requireBranch.set("master")
+      pushToRemote.set("origin")
+      signTag.set(false)
+    }
   }
 
   signPlugin {
