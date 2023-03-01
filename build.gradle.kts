@@ -109,6 +109,13 @@ tasks {
     })
   }
 
+  test {
+    testLogging {
+      showStandardStreams = true
+      events("PASSED", "SKIPPED", "FAILED")
+    }
+  }
+
   buildSearchableOptions {
     enabled = false
   }

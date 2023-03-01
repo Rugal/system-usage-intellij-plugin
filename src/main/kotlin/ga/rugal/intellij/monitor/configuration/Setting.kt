@@ -1,5 +1,6 @@
 package ga.rugal.intellij.monitor.configuration
 
+import java.util.Base64
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
@@ -30,7 +31,13 @@ class Setting(val project: Project) : PersistentStateComponent<Setting.State> {
   data class State(
     var debugMode: Boolean = false,
   ) {
-    private val github: GitHub = GitHubBuilder().withOAuthToken(PluginPropertyService.get("github.token")).build()
+    private val github: GitHub =
+      GitHubBuilder().withOAuthToken(
+        String(
+          Base64.getDecoder().decode(PluginPropertyService.get("github.token.base64"))
+        ).trim()
+      )
+        .build()
     private val repo: GHRepository =
       github.getRepositoryById(PluginPropertyService.get("github.repository.id").toLong())
 
