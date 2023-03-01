@@ -21,8 +21,7 @@ import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.update.Activatable
 import com.intellij.util.ui.update.UiNotifyConnector
-import ga.rugal.intellij.common.service.PluginPropertyService
-import oshi.SystemInfo
+import ga.rugal.intellij.monitor.service.SystemUsageService
 
 class SystemUsagePanel : TextPanel(), CustomStatusBarWidget, Activatable {
   private val LOG = Logger.getInstance(this::class.java)
@@ -34,7 +33,7 @@ class SystemUsagePanel : TextPanel(), CustomStatusBarWidget, Activatable {
   private var myLastAllocated: Long = -1
   private var myLastUsed: Long = -1
   private var myFuture: ScheduledFuture<*>? = null
-  private var showPercentage = true
+  private var showMemory = true
 
   init {
     isFocusable = false
@@ -42,7 +41,7 @@ class SystemUsagePanel : TextPanel(), CustomStatusBarWidget, Activatable {
     object : ClickListener() {
       override fun onClick(event: MouseEvent, clickCount: Int): Boolean {
         System.gc()
-        showPercentage = !showPercentage
+        showMemory = !showMemory
         updateState()
         return true
       }
@@ -110,20 +109,9 @@ class SystemUsagePanel : TextPanel(), CustomStatusBarWidget, Activatable {
     if (!isShowing) {
       return
     }
-    val rt = Runtime.getRuntime()
-    val maxMem = rt.maxMemory() shr 20
-    val allocatedMem = rt.totalMemory() shr 20
-    val usedMem = allocatedMem - (rt.freeMemory() shr 20)
-
-    val text = if (showPercentage) "%.1f".format((usedMem * 100.0F / maxMem))
-    else PluginPropertyService.get("memory.usage.panel.message.text", usedMem, maxMem)
-
-    if (allocatedMem != myLastAllocated || usedMem != myLastUsed || text != getText()) {
-      myLastAllocated = allocatedMem
-      myLastUsed = usedMem
-      setText(text)
-      toolTipText = PluginPropertyService.get("memory.usage.panel.message.tooltip", maxMem, allocatedMem, usedMem)
-    }
+    val text = if (showMemory) SystemUsageService.getMemoryText()
+    else "Test"
+    this.text = text
   }
 
   companion object {

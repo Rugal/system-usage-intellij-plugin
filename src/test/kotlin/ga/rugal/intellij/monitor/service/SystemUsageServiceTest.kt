@@ -9,6 +9,8 @@ class SystemUsageServiceTest : BasePlatformTestCase() {
       println(it)
       assertNotNull(it)
     }
+
+    println(SystemUsageService.getMemoryText())
   }
 
   fun testGetFileSystem() {
@@ -18,5 +20,7 @@ class SystemUsageServiceTest : BasePlatformTestCase() {
         assertNotNull(SystemUsageService.getMemory())
       }
     }
+
+    println(SystemUsageService.getFileSystemText())
   }
 }
