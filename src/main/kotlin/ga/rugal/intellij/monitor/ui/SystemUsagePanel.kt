@@ -22,6 +22,7 @@ import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.update.Activatable
 import com.intellij.util.ui.update.UiNotifyConnector
 import ga.rugal.intellij.common.service.PluginPropertyService
+import oshi.SystemInfo
 
 class SystemUsagePanel : TextPanel(), CustomStatusBarWidget, Activatable {
   private val LOG = Logger.getInstance(this::class.java)
@@ -65,13 +66,9 @@ class SystemUsagePanel : TextPanel(), CustomStatusBarWidget, Activatable {
 
   override fun install(statusBar: StatusBar) {}
   override fun dispose() {}
-  override fun getPresentation(): WidgetPresentation? {
-    return null
-  }
+  override fun getPresentation(): WidgetPresentation? = null
 
-  override fun ID(): String {
-    return WIDGET_ID
-  }
+  override fun ID(): String = WIDGET_ID
 
   fun setShowing(showing: Boolean) {
     if (showing != isVisible) {
@@ -80,9 +77,7 @@ class SystemUsagePanel : TextPanel(), CustomStatusBarWidget, Activatable {
     }
   }
 
-  override fun getComponent(): JComponent {
-    return this
-  }
+  override fun getComponent(): JComponent = this
 
   override fun paintComponent(g: Graphics) {
     val size: Dimension = size
