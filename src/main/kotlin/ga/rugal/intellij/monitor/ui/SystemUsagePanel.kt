@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 import javax.swing.JComponent
-import kotlin.math.min
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.wm.CustomStatusBarWidget
 import com.intellij.openapi.wm.StatusBar
@@ -29,9 +28,6 @@ class SystemUsagePanel : TextPanel(), CustomStatusBarWidget, Activatable {
   private val myUsedColor: Color = JBColor.namedColor("MemoryIndicator.usedBackground", JBColor(Gray._185, Gray._110))
   private val myUnusedColor: Color =
     JBColor.namedColor("MemoryIndicator.allocatedBackground", JBColor(Gray._215, Gray._90))
-  private val myMaxMemory = min(Runtime.getRuntime().maxMemory() shr 20, 9999)
-  private var myLastAllocated: Long = -1
-  private var myLastUsed: Long = -1
   private var myFuture: ScheduledFuture<*>? = null
   private var showMemory = true
 
@@ -40,7 +36,6 @@ class SystemUsagePanel : TextPanel(), CustomStatusBarWidget, Activatable {
     this.setTextAlignment(CENTER_ALIGNMENT)
     object : ClickListener() {
       override fun onClick(event: MouseEvent, clickCount: Int): Boolean {
-        System.gc()
         showMemory = !showMemory
         updateState()
         return true
@@ -109,9 +104,13 @@ class SystemUsagePanel : TextPanel(), CustomStatusBarWidget, Activatable {
     if (!isShowing) {
       return
     }
-    val text = if (showMemory) SystemUsageService.getMemoryText()
-    else "Test"
-    this.text = text
+
+    this.text = if (showMemory) SystemUsageService.getMemory().let { "%.1f".format(it.used * 100.0 / it.total) }
+    else SystemUsageService.getFileSystem().firstOrNull { it.name == "/" }
+      ?.let { "%.1f".format(it.used * 100.0 / it.total) }
+
+    this.toolTipText = if (showMemory) "test memory detail"
+    else SystemUsageService.getFileSystemText()
   }
 
   companion object {
