@@ -18,10 +18,14 @@ plugins {
 
 group = properties("group")
 
-// Configure project's dependencies
-repositories {
-  mavenLocal()
-  mavenCentral()
+allprojects {
+  repositories {
+    maven { url = uri("https://maven.aliyun.com/repository/central") }
+    maven { url = uri("https://maven.aliyun.com/repository/public") }
+    maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
+    mavenLocal()
+    mavenCentral()
+  }
 }
 
 dependencies {
