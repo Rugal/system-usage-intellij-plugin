@@ -6,9 +6,9 @@ fun properties(key: String) = project.findProperty(key).toString()
 plugins {
   java
   // kotlin running on JVM, this defines kotlin version as well
-  kotlin("jvm") version "1.8.0"
+  kotlin("jvm") version "1.9.0"
   // to build into IntelliJ plugin
-  id("org.jetbrains.intellij") version "1.13.0"
+  id("org.jetbrains.intellij") version "1.16.0"
   // Gradle Changelog Plugin
   id("org.jetbrains.changelog") version "2.0.0"
   // release plugin
