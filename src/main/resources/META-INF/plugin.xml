@@ -1,6 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-  <id>ga.rugal.intellij.system-status-monitor</id>
+  <id>ga.rugal.intellij.sample-plugin</id>
   <vendor email="this@rug.al" url="https://rug.al">
     冰杰翎出品
   </vendor>
@@ -16,7 +16,6 @@
     <!-- project post startup-->
     <postStartupActivity implementation="ga.rugal.intellij.monitor.messaging.listener.EnvironmentDetector"/>
     <!-- persistent setting-->
-    <projectService serviceImplementation="ga.rugal.intellij.monitor.configuration.Setting"/>
     <!-- Configurable preference -->
     <projectConfigurable
       displayName="System Monitor"
@@ -24,9 +23,6 @@
       instance="ga.rugal.intellij.monitor.configuration.PluginConfigurable"
       parentId="tools"
     />
-
-    <statusBarWidgetFactory
-      implementation="ga.rugal.intellij.monitor.ui.SystemUsageBarFactory"/>
     <!-- service-->
   </extensions>
 

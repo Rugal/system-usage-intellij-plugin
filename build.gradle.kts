@@ -1,10 +1,10 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import net.researchgate.release.ReleaseExtension
 
 fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
-  java
   // kotlin running on JVM, this defines kotlin version as well
   kotlin("jvm") version "1.9.0"
   // to build into IntelliJ plugin
@@ -15,8 +15,6 @@ plugins {
   id("net.researchgate.release") version "3.0.2"
 
 }
-
-group = properties("group")
 
 allprojects {
   repositories {
@@ -31,10 +29,8 @@ allprojects {
 dependencies {
   implementation(kotlin("stdlib"))
 
-  implementation("com.github.oshi:oshi-core:6.4.0")
-
-  implementation("org.slf4j:slf4j-api:2.0.5")
-  implementation("org.slf4j:slf4j-simple:2.0.6")
+//  implementation("org.slf4j:slf4j-api:2.0.5")
+//  implementation("org.slf4j:slf4j-simple:2.0.6")
 
   implementation("org.kohsuke:github-api:1.313")
 
@@ -75,6 +71,14 @@ if (hasProperty("buildScan")) {
   extensions.findByName("buildScan")?.withGroovyBuilder {
     setProperty("termsOfServiceUrl", "https://gradle.com/terms-of-service")
     setProperty("termsOfServiceAgree", "yes")
+  }
+}
+
+configure<ReleaseExtension> {
+  tagTemplate.set("v${version}")
+  ignoredSnapshotDependencies.set(listOf("net.researchgate:gradle-release"))
+  with(git) {
+    requireBranch.set("master")
   }
 }
 
@@ -122,29 +126,6 @@ tasks {
 
   buildSearchableOptions {
     enabled = false
-  }
-
-  // Configure UI tests plugin
-  // Read more: https://github.com/JetBrains/intellij-ui-test-robot
-  runIdeForUiTests {
-    systemProperty("robot-server.port", "8082")
-    systemProperty("ide.mac.message.dialogs.as.sheets", "false")
-    systemProperty("jb.privacy.policy.text", "<!--999.999-->")
-    systemProperty("jb.consents.confirmation.enabled", "false")
-  }
-
-  release {
-    failOnCommitNeeded.set(true)
-    failOnSnapshotDependencies.set(true)
-    tagTemplate.set("v${version}")
-    versionPropertyFile.set("gradle.properties")
-    snapshotSuffix.set("-SNAPSHOT")
-
-    git {
-      requireBranch.set("master")
-      pushToRemote.set("origin")
-      signTag.set(false)
-    }
   }
 
   val copyIdeaProperties by registering(Copy::class) {

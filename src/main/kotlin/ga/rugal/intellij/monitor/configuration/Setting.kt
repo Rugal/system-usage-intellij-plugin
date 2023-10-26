@@ -9,10 +9,12 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
 import com.intellij.util.xmlb.annotations.Transient
 import ga.rugal.intellij.common.service.PluginPropertyService
+import com.intellij.openapi.components.Service
 import org.kohsuke.github.GHRepository
 import org.kohsuke.github.GitHub
 import org.kohsuke.github.GitHubBuilder
 
+@Service(Service.Level.PROJECT)
 @State(name = "SystemStatusMonitorSetting", storages = [(Storage(value = StoragePathMacros.WORKSPACE_FILE))])
 class Setting(val project: Project) : PersistentStateComponent<Setting.State> {
   companion object {
