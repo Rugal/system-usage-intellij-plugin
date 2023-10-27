@@ -1,33 +1,32 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-  <id>ga.rugal.intellij.sample-plugin</id>
   <vendor email="this@rug.al" url="https://rug.al">
     冰杰翎出品
   </vendor>
 
   <depends>com.intellij.modules.platform</depends>
-  <depends>com.intellij.modules.lang</depends>
-  <depends>com.intellij.modules.xml</depends>
-  <depends>org.jetbrains.plugins.terminal</depends>
+  <depends>org.jetbrains.idea.maven</depends>
+  <depends>com.intellij.java</depends>
+  <depends>org.jetbrains.plugins.yaml</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- error reporting-->
-    <errorHandler implementation="ga.rugal.intellij.monitor.exception.ErrorSubmitter"/>
+    <errorHandler implementation="ga.rugal.intellij.sample.exception.ErrorSubmitter"/>
     <!-- project post startup-->
-    <postStartupActivity implementation="ga.rugal.intellij.monitor.messaging.listener.EnvironmentDetector"/>
+    <postStartupActivity implementation="ga.rugal.intellij.sample.messaging.listener.ProjectInitializer"/>
     <!-- persistent setting-->
     <!-- Configurable preference -->
     <projectConfigurable
-      displayName="System Monitor"
-      id="ga.rugal.intellij.monitor"
-      instance="ga.rugal.intellij.monitor.configuration.PluginConfigurable"
+      displayName="Rugal IntelliJ Plugin"
+      id="ga.rugal.intellij.plugin"
+      instance="ga.rugal.intellij.sample.configuration.PluginConfigurable"
       parentId="tools"
     />
     <!-- service-->
   </extensions>
 
   <projectListeners>
-    <listener class="ga.rugal.intellij.monitor.messaging.listener.DebugModeListener"
-              topic="ga.rugal.intellij.monitor.messaging.DebugModeChangeNotifier"/>
+    <listener class="ga.rugal.intellij.sample.messaging.listener.DebugModeListener"
+              topic="ga.rugal.intellij.sample.messaging.DebugModeChangeNotifier"/>
   </projectListeners>
 </idea-plugin>

@@ -1,6 +1,6 @@
+import net.researchgate.release.ReleaseExtension
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
-import net.researchgate.release.ReleaseExtension
 
 fun properties(key: String) = project.findProperty(key).toString()
 
@@ -28,9 +28,6 @@ allprojects {
 
 dependencies {
   implementation(kotlin("stdlib"))
-
-//  implementation("org.slf4j:slf4j-api:2.0.5")
-//  implementation("org.slf4j:slf4j-simple:2.0.6")
 
   implementation("org.kohsuke:github-api:1.313")
 
@@ -88,6 +85,7 @@ tasks {
   }
 
   patchPluginXml {
+    pluginId.set("${properties("group")}.${properties("pluginName")}")
     version.set(project.version.toString())
     sinceBuild.set(properties("pluginSinceBuild"))
     untilBuild.set(properties("pluginUntilBuild"))

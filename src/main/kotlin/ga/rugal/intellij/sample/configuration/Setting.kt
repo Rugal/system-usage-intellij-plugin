@@ -1,4 +1,4 @@
-package ga.rugal.intellij.monitor.configuration
+package ga.rugal.intellij.sample.configuration
 
 import java.util.Base64
 import com.intellij.openapi.components.PersistentStateComponent

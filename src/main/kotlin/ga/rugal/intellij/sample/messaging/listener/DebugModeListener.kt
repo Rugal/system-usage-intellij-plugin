@@ -1,11 +1,10 @@
-package ga.rugal.intellij.monitor.messaging.listener
+package ga.rugal.intellij.sample.messaging.listener
 
 import ga.rugal.intellij.common.service.LogService
 import ga.rugal.intellij.common.service.PluginPropertyService
-import ga.rugal.intellij.monitor.messaging.DebugModeChangeNotifier
+import ga.rugal.intellij.sample.messaging.DebugModeChangeNotifier
 import com.intellij.diagnostic.DebugLogManager
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.wm.impl.status.widget.StatusBarWidgetsManager
 
 class DebugModeListener : DebugModeChangeNotifier {
 

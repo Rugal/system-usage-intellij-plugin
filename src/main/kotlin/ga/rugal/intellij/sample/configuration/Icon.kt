@@ -1,4 +1,4 @@
-package ga.rugal.intellij.monitor.configuration
+package ga.rugal.intellij.sample.configuration
 
 import javax.swing.Icon
 import com.intellij.openapi.util.IconLoader
