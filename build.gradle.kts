@@ -84,6 +84,10 @@ tasks {
     gradleVersion = properties("gradleVersion")
   }
 
+  initializeIntelliJPlugin {
+    selfUpdateCheck.set(false)
+  }
+
   patchPluginXml {
     pluginId.set("${properties("group")}.${properties("pluginName")}")
     version.set(project.version.toString())
