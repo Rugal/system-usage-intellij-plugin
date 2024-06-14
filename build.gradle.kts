@@ -8,7 +8,7 @@ plugins {
   // kotlin running on JVM, this defines kotlin version as well
   kotlin("jvm") version "1.9.0"
   // to build into IntelliJ plugin
-  id("org.jetbrains.intellij") version "1.16.0"
+  id("org.jetbrains.intellij") version "1.17.3"
   // Gradle Changelog Plugin
   id("org.jetbrains.changelog") version "2.0.0"
   // release plugin

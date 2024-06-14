@@ -44,8 +44,8 @@ class Setting(val project: Project) : PersistentStateComponent<Setting.State> {
     private val repo: GHRepository =
       github.getRepositoryById(PluginPropertyService.get("github.repository.id").toLong())
 
-    @get:Transient
-    val repository: GHRepository
-      get() = this.repo
+//    @get:Transient
+//    val repository: GHRepository
+//      get() = this.repo
   }
 }
