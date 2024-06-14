@@ -10,5 +10,5 @@ object VersionService {
   val platformVersion: String
     get() = ApplicationInfo.getInstance().build.toString()
 
-  fun pluginVersion(name: String): String = PluginManagerCore.getPlugins().first { it.name.contains(name) }.version
+  fun pluginVersion(name: String): String = PluginManagerCore.plugins.first { it.name.contains(name) }.version
 }

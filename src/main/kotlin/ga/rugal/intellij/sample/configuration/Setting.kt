@@ -1,15 +1,15 @@
 package ga.rugal.intellij.sample.configuration
 
 import java.util.Base64
+import ga.rugal.intellij.common.service.PluginPropertyService
 import com.intellij.openapi.components.PersistentStateComponent
+import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.StoragePathMacros
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
 import com.intellij.util.xmlb.annotations.Transient
-import ga.rugal.intellij.common.service.PluginPropertyService
-import com.intellij.openapi.components.Service
 import org.kohsuke.github.GHRepository
 import org.kohsuke.github.GitHub
 import org.kohsuke.github.GitHubBuilder
@@ -40,6 +40,7 @@ class Setting(val project: Project) : PersistentStateComponent<Setting.State> {
         ).trim()
       )
         .build()
+
     private val repo: GHRepository =
       github.getRepositoryById(PluginPropertyService.get("github.repository.id").toLong())
 

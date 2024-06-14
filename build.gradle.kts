@@ -29,7 +29,7 @@ allprojects {
 dependencies {
   implementation(kotlin("stdlib"))
 
-  implementation("org.kohsuke:github-api:1.313")
+  implementation("org.kohsuke:github-api:1.321")
 
   testImplementation(kotlin("test"))
 }
