@@ -29,6 +29,8 @@ allprojects {
 dependencies {
   implementation(kotlin("stdlib"))
 
+  implementation("org.springframework.boot:spring-boot-starter-web:3.3.0")
+
   implementation("org.kohsuke:github-api:1.321")
 
   testImplementation(kotlin("test"))

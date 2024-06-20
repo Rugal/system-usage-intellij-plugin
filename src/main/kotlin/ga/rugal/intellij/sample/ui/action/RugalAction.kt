@@ -1,5 +1,8 @@
 package ga.rugal.intellij.sample.ui.action
 
+import ga.rugal.intellij.sample.configuration.Icon
+import ga.rugal.intellij.sample.service.NotificationService
+import ga.rugal.intellij.sample.service.PsiService
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -7,28 +10,13 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 
-private const val PREFIX = "org.springframework.web.bind.annotation"
-
-class RugalAction : AnAction("Copy REST Path") {
+object RugalAction : AnAction("Copy REST Path", "Copy corresponding REST path", Icon.ROCKET_ICON) {
   private val LOG = Logger.getInstance(this::class.java)
-
-  private val annotations = listOf(
-    "GetMapping",
-    "DeleteMapping",
-    "PostMapping",
-    "PutMapping",
-    "PatchMapping",
-    "RequestMapping",
-  )
-
-  private fun hasRequestAnnotation(method: PsiMethod): Boolean = this.annotations.any {
-    method.getAnnotation("${PREFIX}.${it}") != null
-  }
 
   override fun update(e: AnActionEvent) {
     super.update(e)
     e.presentation.isEnabled = when (val element = e.dataContext.getData(CommonDataKeys.PSI_ELEMENT)) {
-      is PsiMethod -> this.hasRequestAnnotation(element)
+      is PsiMethod -> PsiService.hasRequestAnnotation(element)
       else -> false
     }
   }
@@ -40,9 +28,9 @@ class RugalAction : AnAction("Copy REST Path") {
     val element = dataContext.getData(CommonDataKeys.PSI_ELEMENT)
     element as PsiMethod
 
-    // get its class, with the @RequestMapping annotation
-    val containingClass: PsiClass? = element.containingClass
+    PsiService.test(element)
 
     // combine them into real path
+    NotificationService.notify("REST path copied", e.project!!)
   }
 }

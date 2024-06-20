@@ -22,19 +22,13 @@
       instance="ga.rugal.intellij.sample.configuration.PluginConfigurable"
       parentId="tools"
     />
+    <!-- Message Notification -->
+    <notificationGroup id="sample-plugin" displayType="BALLOON"/>
     <!-- service-->
-
   </extensions>
 
   <projectListeners>
     <listener class="ga.rugal.intellij.sample.messaging.listener.DebugModeListener"
               topic="ga.rugal.intellij.sample.messaging.DebugModeChangeNotifier"/>
   </projectListeners>
-  <actions>
-    <action id="ga.rugal.intellij.sample.ui.action.RugalAction"
-            class="ga.rugal.intellij.sample.ui.action.RugalAction"
-            text="Copy REST Path" description="Copy corresponding REST path">
-      <add-to-group group-id="Copy.Paste.Special" anchor="last"/>
-    </action>
-  </actions>
 </idea-plugin>
