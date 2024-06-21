@@ -6,7 +6,4 @@ gradlew
 gradlew.bat
 .DS_Store
 .vscode
-codeintelligence
-workspace-java
-openapi-collection
 gradle

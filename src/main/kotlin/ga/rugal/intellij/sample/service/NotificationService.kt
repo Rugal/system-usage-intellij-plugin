@@ -18,7 +18,7 @@ object NotificationService {
       .getInstance()
       .getNotificationGroup(PluginPropertyService.get("name"))
       .createNotification(text, type)
-      .setIcon(Icon.LIGHTNING_ICON)
+      .setIcon(Icon.R_ICON)
       .setTitle(PluginPropertyService.get("name"))
 
   /**

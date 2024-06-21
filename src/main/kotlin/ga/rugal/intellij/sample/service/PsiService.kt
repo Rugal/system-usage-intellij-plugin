@@ -29,33 +29,56 @@ object PsiService {
     true
   }.getOrDefault(false)
 
-  @Throws(NoSuchElementException::class)
-  fun getRequestAnnotation(method: PsiMethod): PsiAnnotation =
-    method.annotations.first { this.annotations.contains(it.qualifiedName!!) }
+  @get:Throws(NoSuchElementException::class)
+  private val PsiMethod.targetAnnotation: PsiAnnotation
+    get() = this.annotations.first { PsiService.annotations.contains(it.qualifiedName!!) }
 
+  /**
+   * Get {@code RequestMapping} or {@code XxxMapping} annotation from the given method.
+   */
   @Throws(NoSuchElementException::class)
-  fun test(element: PsiMethod): HttpServletRequest {
-    val annotation: PsiAnnotation = this.getRequestAnnotation(element)
-    // determine if its RequestMapping
-    if (annotation.qualifiedName == RequestMapping::class.java.name) {
-      // method, path, content type
-      val method = annotation.findAttributeValue("method") ?: annotation.findAttributeValue("method")
-      val path = annotation.findAttributeValue("value") ?: annotation.findAttributeValue("path")
-
-      val request = DefaultHttpServletRequest(method?.text ?: HttpMethod.GET.name(), path?.text ?: "")
-    } else {
-      val method = when (annotation.qualifiedName) {
-        GetMapping::class.java.name -> HttpMethod.GET.name()
-        DeleteMapping::class.java.name -> HttpMethod.DELETE.name()
-        PutMapping::class.java.name -> HttpMethod.PUT.name()
-        PostMapping::class.java.name -> HttpMethod.POST.name()
-        PatchMapping::class.java.name -> HttpMethod.PATCH.name()
-        else -> HttpMethod.GET.name()
-      }
-      val path = annotation.findAttributeValue("value") ?: annotation.findAttributeValue("path")
-      val request = DefaultHttpServletRequest(method, path?.text ?: "")
+  fun getRequestAnnotation(method: PsiMethod): PsiAnnotation {
+    try {
+      // find target annotation from current method
+      return method.targetAnnotation
+    } catch (e: NoSuchElementException) {
+      // rethrow if no @Override annotation
+      if (method.getAnnotation(Override::class.java.name) == null) throw e
     }
-    // get class annotation
-    // concatenate path
+    // keep searching if method has @Override annotation
+    return method.findSuperMethods().firstNotNullOf { runCatching { it.targetAnnotation }.getOrNull() }
   }
+
+  private fun getRequestMethod(annotation: PsiAnnotation): String {
+    // for RequestMapping
+    fun PsiAnnotation.method(): String = this.findAttributeValue("method")?.text ?: HttpMethod.GET.name()
+
+    // for XXXMapping
+    fun PsiAnnotation.simpleName(): String = this.qualifiedName?.let { it.substring(it.lastIndexOf(".") + 1) }
+      ?: GetMapping::class.java.simpleName
+
+    fun String.method(): String = this.substring(0, this.indexOf("Mapping")).uppercase()
+    // determine if its RequestMapping
+    return if (annotation.qualifiedName == RequestMapping::class.java.name)
+      annotation.method()
+    else
+      annotation.simpleName().method()
+  }
+
+  private val PsiAnnotation.path: String
+    get() = this.findAttributeValue("value")?.text ?: this.findAttributeValue("path")?.text ?: "/"
+
+  @get:Throws(NoSuchElementException::class)
+  val PsiMethod.httpServletRequest: HttpServletRequest
+    get() {
+      // get request information from method itself, it can't try to find it from the super method, otherwise throw exception
+      val annotation: PsiAnnotation = getRequestAnnotation(this)
+      val request = DefaultHttpServletRequest(getRequestMethod(annotation), annotation.path)
+      // if this class has no base path, get base path from class, get class annotation
+      val classAnnotation = this.containingClass!!.getAnnotation(RequestMapping::class.java.name) ?: return request
+      // concatenate path
+      return request.copy(
+        path = "${classAnnotation.path}${request.servletPath}"
+      )
+    }
 }

@@ -6,13 +6,11 @@ import com.intellij.util.IconUtil
 
 object Icon {
 
-  val ROCKET_ICON = resizeIcon("/image/rocket.svg")
+  val R_ICON = resizeIcon("/image/r.svg")
 
-  val LIGHTNING_ICON = resizeIcon("/image/lightning_configurationtype.svg")
+  val PARTICLE_ICON = resizeIcon("/image/particle.svg", 14)
 
   private fun load(path: String) = IconLoader.getIcon(path, javaClass)
 
-  private fun resizeIcon(path: String): Icon {
-    return IconUtil.resizeSquared(load(path), 16)
-  }
+  private fun resizeIcon(path: String, size: Int = 16): Icon = IconUtil.resizeSquared(load(path), size)
 }
