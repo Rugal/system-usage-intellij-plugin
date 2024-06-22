@@ -1,6 +1,7 @@
 package ga.rugal.intellij.sample.service
 
 import ga.rugal.intellij.sample.entity.DefaultHttpServletRequest
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiMethod
 import jakarta.servlet.http.HttpServletRequest
@@ -13,14 +14,15 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 object PsiService {
+  private val LOG = Logger.getInstance(this::class.java)
 
   private val annotations: Set<String> = setOf(
-    GetMapping::class.java.name,
-    DeleteMapping::class.java.name,
-    PutMapping::class.java.name,
-    PostMapping::class.java.name,
-    PatchMapping::class.java.name,
-    RequestMapping::class.java.name,
+    GetMapping::class.java.simpleName,
+    DeleteMapping::class.java.simpleName,
+    PutMapping::class.java.simpleName,
+    PostMapping::class.java.simpleName,
+    PatchMapping::class.java.simpleName,
+    RequestMapping::class.java.simpleName,
   )
 
   @Throws(NoSuchElementException::class)
@@ -66,7 +68,7 @@ object PsiService {
   }
 
   private val PsiAnnotation.path: String
-    get() = this.findAttributeValue("value")?.text ?: this.findAttributeValue("path")?.text ?: "/"
+    get() = (this.findAttributeValue("value")?.text ?: this.findAttributeValue("path")?.text ?: "/").replace("\"", "")
 
   @get:Throws(NoSuchElementException::class)
   val PsiMethod.httpServletRequest: HttpServletRequest
@@ -75,10 +77,12 @@ object PsiService {
       val annotation: PsiAnnotation = getRequestAnnotation(this)
       val request = DefaultHttpServletRequest(getRequestMethod(annotation), annotation.path)
       // if this class has no base path, get base path from class, get class annotation
-      val classAnnotation = this.containingClass!!.getAnnotation(RequestMapping::class.java.name) ?: return request
+      val classAnnotation =
+        this.containingClass!!.annotations.first { it.qualifiedName == RequestMapping::class.java.simpleName }
+          ?: return request
       // concatenate path
       return request.copy(
-        path = "${classAnnotation.path}${request.servletPath}"
+        path = "${classAnnotation.path}${request.servletPath}",
       )
     }
 }

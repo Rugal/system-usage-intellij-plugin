@@ -17,7 +17,9 @@ class ProjectInitializer : ProjectActivity {
       LOG.trace("Determine execution environment")
 
       ApplicationManager.getApplication().invokeLater({
-        EditorService.open(project, "Rugal title")
+        if (!ApplicationManager.getApplication().isUnitTestMode) {
+          EditorService.open(project, "Rugal title")
+        }
       }, ModalityState.defaultModalityState())
     }
   }

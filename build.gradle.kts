@@ -13,17 +13,11 @@ plugins {
   id("org.jetbrains.changelog") version "2.0.0"
   // release plugin
   id("net.researchgate.release") version "3.0.2"
-
 }
 
-allprojects {
-  repositories {
-    maven { url = uri("https://maven.aliyun.com/repository/central") }
-    maven { url = uri("https://maven.aliyun.com/repository/public") }
-    maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
-    mavenLocal()
-    mavenCentral()
-  }
+// Configure project's dependencies
+repositories {
+  mavenCentral()
 }
 
 dependencies {
@@ -45,9 +39,7 @@ sourceSets {
 
 // Set the JVM language level used to compile sources and generate files - Java 11 is required since 2020.3
 kotlin {
-  jvmToolchain {
-    languageVersion.set(JavaLanguageVersion.of(17))
-  }
+  jvmToolchain(17)
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
@@ -64,6 +56,7 @@ intellij {
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
   version.set(project.version.toString())
+  groups.empty()
 }
 
 if (hasProperty("buildScan")) {
