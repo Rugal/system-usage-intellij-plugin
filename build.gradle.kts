@@ -122,6 +122,8 @@ tasks {
   }
 
   test {
+    useJUnitPlatform()
+
     testLogging {
       showStandardStreams = true
       events("PASSED", "SKIPPED", "FAILED")
