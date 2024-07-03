@@ -13,11 +13,21 @@ import com.intellij.testFramework.fixtures.BasePlatformTestCase
 @TestDataPath("\$PROJECT_ROOT/src/test/resources/copy")
 class PsiServiceTest : BasePlatformTestCase() {
 
-  fun testHasRequestAnnotation() {
-    myFixture.configureByFile("A.java")
+  fun testGetWithRequest() {
+    myFixture.configureByFile("GetWithRequest.java")
     val element = myFixture.elementAtCaret as PsiMethod
     element.httpServletRequest.also {
       assertEquals("/root/rugal", it.servletPath)
+      assertEquals("GET", it.method)
+    }
+  }
+
+  fun testGetWithoutRequest() {
+    myFixture.configureByFile("GetWithoutRequest.java")
+    val element = myFixture.elementAtCaret as PsiMethod
+    element.httpServletRequest.also {
+      assertEquals("/rugal", it.servletPath)
+      assertEquals("GET", it.method)
     }
   }
 

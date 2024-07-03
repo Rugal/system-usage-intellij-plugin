@@ -78,7 +78,7 @@ object PsiService {
       val request = DefaultHttpServletRequest(getRequestMethod(annotation), annotation.path)
       // if this class has no base path, get base path from class, get class annotation
       val classAnnotation =
-        this.containingClass!!.annotations.first { it.qualifiedName == RequestMapping::class.java.simpleName }
+        this.containingClass!!.annotations.firstOrNull { it.qualifiedName == RequestMapping::class.java.simpleName }
           ?: return request
       // concatenate path
       return request.copy(
