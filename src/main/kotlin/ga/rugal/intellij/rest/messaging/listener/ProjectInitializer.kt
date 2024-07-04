@@ -1,6 +1,6 @@
-package ga.rugal.intellij.sample.messaging.listener
+package ga.rugal.intellij.rest.messaging.listener
 
-import ga.rugal.intellij.sample.service.EditorService
+import ga.rugal.intellij.rest.service.EditorService
 import com.intellij.ide.util.RunOnceUtil
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState

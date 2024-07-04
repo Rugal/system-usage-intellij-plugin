@@ -1,6 +1,6 @@
-package ga.rugal.intellij.sample.service
+package ga.rugal.intellij.rest.service
 
-import ga.rugal.intellij.sample.entity.DefaultHttpServletRequest
+import ga.rugal.intellij.rest.entity.DefaultHttpServletRequest
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiClass
@@ -28,7 +28,7 @@ object PsiService {
 
   @Throws(NoSuchElementException::class)
   fun hasRequestAnnotation(method: PsiMethod): Boolean = runCatching {
-    this.getRequestAnnotation(method)
+    getRequestAnnotation(method)
     true
   }.getOrDefault(false)
 

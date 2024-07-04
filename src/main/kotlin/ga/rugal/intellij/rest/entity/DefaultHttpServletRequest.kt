@@ -1,4 +1,4 @@
-package ga.rugal.intellij.sample.entity
+package ga.rugal.intellij.rest.entity
 
 import java.io.BufferedReader
 import java.security.Principal

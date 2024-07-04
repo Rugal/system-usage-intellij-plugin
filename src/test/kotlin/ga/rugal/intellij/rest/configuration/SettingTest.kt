@@ -1,4 +1,4 @@
-package ga.rugal.intellij.sample.configuration
+package ga.rugal.intellij.rest.configuration
 
 import java.util.Base64
 import ga.rugal.intellij.common.service.PluginPropertyService

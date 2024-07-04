@@ -1,12 +1,12 @@
-package ga.rugal.intellij.sample.configuration
+package ga.rugal.intellij.rest.configuration
 
 import javax.swing.JComponent
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.options.Configurable
 import ga.rugal.intellij.common.service.PluginPropertyService
-import ga.rugal.intellij.sample.configuration.ui.PreferenceUI
-import ga.rugal.intellij.sample.messaging.DebugModeChangeNotifier
+import ga.rugal.intellij.rest.configuration.ui.PreferenceUI
+import ga.rugal.intellij.rest.messaging.DebugModeChangeNotifier
 
 class PluginConfigurable : Configurable {
   private val LOG = Logger.getInstance(this::class.java)

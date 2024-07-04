@@ -1,4 +1,4 @@
-package ga.rugal.intellij.sample.configuration
+package ga.rugal.intellij.rest.configuration
 
 import javax.swing.Icon
 import com.intellij.openapi.util.IconLoader

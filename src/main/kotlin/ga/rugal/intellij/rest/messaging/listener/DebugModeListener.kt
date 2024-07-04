@@ -1,8 +1,8 @@
-package ga.rugal.intellij.sample.messaging.listener
+package ga.rugal.intellij.rest.messaging.listener
 
 import ga.rugal.intellij.common.service.LogService
 import ga.rugal.intellij.common.service.PluginPropertyService
-import ga.rugal.intellij.sample.messaging.DebugModeChangeNotifier
+import ga.rugal.intellij.rest.messaging.DebugModeChangeNotifier
 import com.intellij.diagnostic.logs.DebugLogLevel
 import com.intellij.openapi.diagnostic.Logger
 

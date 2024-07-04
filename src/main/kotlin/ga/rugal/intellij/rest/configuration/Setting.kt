@@ -1,4 +1,4 @@
-package ga.rugal.intellij.sample.configuration
+package ga.rugal.intellij.rest.configuration
 
 import java.util.Base64
 import ga.rugal.intellij.common.service.PluginPropertyService
@@ -16,7 +16,7 @@ import org.kohsuke.github.GitHub
 import org.kohsuke.github.GitHubBuilder
 
 @Service(Service.Level.PROJECT)
-@State(name = "SystemStatusMonitorSetting", storages = [(Storage(value = StoragePathMacros.WORKSPACE_FILE))])
+@State(name = "RestResolverSetting", storages = [(Storage(value = StoragePathMacros.WORKSPACE_FILE))])
 class Setting(val project: Project) : PersistentStateComponent<Setting.State> {
   private val LOG = Logger.getInstance(this::class.java)
 

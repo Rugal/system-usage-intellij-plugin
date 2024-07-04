@@ -1,8 +1,8 @@
-package ga.rugal.intellij.sample.service
+package ga.rugal.intellij.rest.service
 
 import kotlin.concurrent.thread
 import ga.rugal.intellij.common.service.PluginPropertyService
-import ga.rugal.intellij.sample.configuration.Icon
+import ga.rugal.intellij.rest.configuration.Icon
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
@@ -38,7 +38,7 @@ object NotificationService {
     text: String,
     type: NotificationType = NotificationType.INFORMATION,
     millis: Long = 5000,
-  ): Notification = this.createNotificationObject(text, type).also {
+  ): Notification = createNotificationObject(text, type).also {
     if (millis > 0) {
       thread {
         Thread.sleep(millis)

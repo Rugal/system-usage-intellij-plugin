@@ -1,8 +1,8 @@
-package ga.rugal.intellij.sample.service.github
+package ga.rugal.intellij.rest.service.github
 
 import com.intellij.openapi.diagnostic.IdeaLoggingEvent
 import com.intellij.openapi.diagnostic.Logger
-import ga.rugal.intellij.sample.configuration.Setting
+import ga.rugal.intellij.rest.configuration.Setting
 import org.kohsuke.github.GHIssue
 
 object IssueService {

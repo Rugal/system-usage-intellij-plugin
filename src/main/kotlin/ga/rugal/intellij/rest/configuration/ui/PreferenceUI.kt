@@ -1,9 +1,9 @@
-package ga.rugal.intellij.sample.configuration.ui
+package ga.rugal.intellij.rest.configuration.ui
 
 import java.awt.BorderLayout
 import javax.swing.JCheckBox
 import javax.swing.JPanel
-import ga.rugal.intellij.sample.configuration.Setting
+import ga.rugal.intellij.rest.configuration.Setting
 
 object PreferenceUI : JPanel() {
   private val debugModeCheckBox: JCheckBox = JCheckBox("调试模式")

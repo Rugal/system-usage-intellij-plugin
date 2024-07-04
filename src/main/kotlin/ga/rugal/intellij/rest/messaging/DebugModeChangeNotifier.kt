@@ -1,4 +1,4 @@
-package ga.rugal.intellij.sample.messaging
+package ga.rugal.intellij.rest.messaging
 
 import com.intellij.util.messages.Topic
 

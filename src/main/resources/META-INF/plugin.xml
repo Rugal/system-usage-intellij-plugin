@@ -7,33 +7,32 @@
   <depends>com.intellij.modules.platform</depends>
   <depends>com.intellij.java</depends>
   <depends>org.jetbrains.plugins.yaml</depends>
-  <depends>org.jetbrains.idea.maven</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- error reporting-->
-    <errorHandler implementation="ga.rugal.intellij.sample.exception.ErrorSubmitter"/>
+    <errorHandler implementation="ga.rugal.intellij.rest.exception.ErrorSubmitter"/>
     <!-- project post startup-->
-    <postStartupActivity implementation="ga.rugal.intellij.sample.messaging.listener.ProjectInitializer"/>
+    <postStartupActivity implementation="ga.rugal.intellij.rest.messaging.listener.ProjectInitializer"/>
     <!-- persistent setting-->
     <!-- Configurable preference -->
     <projectConfigurable
-      displayName="Rugal IntelliJ Plugin"
-      id="ga.rugal.intellij.plugin"
-      instance="ga.rugal.intellij.sample.configuration.PluginConfigurable"
+      displayName="REST Resolver"
+      id="ga.rugal.intellij.rest"
+      instance="ga.rugal.intellij.rest.configuration.PluginConfigurable"
       parentId="tools"
     />
     <!-- Message Notification -->
-    <notificationGroup id="sample-plugin" displayType="BALLOON"/>
+    <notificationGroup id="REST Resolver" displayType="BALLOON"/>
     <!-- service-->
   </extensions>
 
   <projectListeners>
-    <listener class="ga.rugal.intellij.sample.messaging.listener.DebugModeListener"
-              topic="ga.rugal.intellij.sample.messaging.DebugModeChangeNotifier"/>
+    <listener class="ga.rugal.intellij.rest.messaging.listener.DebugModeListener"
+              topic="ga.rugal.intellij.rest.messaging.DebugModeChangeNotifier"/>
   </projectListeners>
   <actions>
-    <action id="ga.rugal.intellij.sample.ui.action.CopyAction"
-            class="ga.rugal.intellij.sample.ui.action.CopyAction"
+    <action id="ga.rugal.intellij.rest.ui.action.CopyAction"
+            class="ga.rugal.intellij.rest.ui.action.CopyAction"
             text="Copy REST Path"
             description="Copy corresponding REST path">
       <add-to-group group-id="Copy.Paste.Special" anchor="last"/>

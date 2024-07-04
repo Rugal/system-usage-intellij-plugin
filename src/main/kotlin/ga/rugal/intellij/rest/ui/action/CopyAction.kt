@@ -1,10 +1,10 @@
-package ga.rugal.intellij.sample.ui.action
+package ga.rugal.intellij.rest.ui.action
 
 import java.awt.datatransfer.StringSelection
-import ga.rugal.intellij.sample.configuration.Icon
-import ga.rugal.intellij.sample.service.NotificationService
-import ga.rugal.intellij.sample.service.PsiService
-import ga.rugal.intellij.sample.service.PsiService.httpServletRequest
+import ga.rugal.intellij.rest.configuration.Icon
+import ga.rugal.intellij.rest.service.NotificationService
+import ga.rugal.intellij.rest.service.PsiService
+import ga.rugal.intellij.rest.service.PsiService.httpServletRequest
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction

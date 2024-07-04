@@ -1,4 +1,4 @@
-package ga.rugal.intellij.sample.exception
+package ga.rugal.intellij.rest.exception
 
 import java.awt.Component
 import com.intellij.openapi.diagnostic.ErrorReportSubmitter
@@ -10,12 +10,12 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.progress.impl.BackgroundableProcessIndicator
 import com.intellij.util.Consumer
-import ga.rugal.intellij.sample.service.github.IssueService
+import ga.rugal.intellij.rest.service.github.IssueService
 
 class ErrorSubmitter : ErrorReportSubmitter() {
   private val LOG = Logger.getInstance(this::class.java)
 
-  override fun getReportActionText(): String = "Submit to Rugal"
+  override fun getReportActionText(): String = "Submit to Github"
 
   override fun submit(
     events: Array<out IdeaLoggingEvent>,

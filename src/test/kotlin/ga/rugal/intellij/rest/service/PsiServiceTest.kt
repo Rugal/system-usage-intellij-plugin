@@ -1,8 +1,8 @@
-package ga.rugal.intellij.sample.service
+package ga.rugal.intellij.rest.service
 
 import java.awt.datatransfer.DataFlavor
-import ga.rugal.intellij.sample.service.PsiService.httpServletRequest
-import ga.rugal.intellij.sample.ui.action.CopyAction
+import ga.rugal.intellij.rest.service.PsiService.httpServletRequest
+import ga.rugal.intellij.rest.ui.action.CopyAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
