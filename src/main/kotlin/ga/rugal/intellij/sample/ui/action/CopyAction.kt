@@ -14,7 +14,7 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.psi.PsiMethod
 
-class RugalAction : AnAction("Copy REST Path", "Copy corresponding REST path", Icon.PARTICLE_ICON) {
+class CopyAction : AnAction("Copy REST Path", "Copy corresponding REST path", Icon.PARTICLE_ICON) {
   private val LOG = Logger.getInstance(this::class.java)
 
   override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
@@ -25,6 +25,7 @@ class RugalAction : AnAction("Copy REST Path", "Copy corresponding REST path", I
       is PsiMethod -> PsiService.hasRequestAnnotation(element)
       else -> false
     }
+    LOG.debug("Set button presentation as enabled [${e.presentation.isEnabled}]")
   }
 
   override fun actionPerformed(e: AnActionEvent) {
@@ -34,12 +35,14 @@ class RugalAction : AnAction("Copy REST Path", "Copy corresponding REST path", I
 
     try {
       val request = element.httpServletRequest
-      LOG.info("Resolve request method [${request.method}] path [${request.servletPath}]")
+      LOG.debug("Resolve request method [${request.method}] path [${request.servletPath}]")
 
-      CopyPasteManager.getInstance().setContents(StringSelection(request.servletPath))
+      CopyPasteManager.getInstance().setContents(StringSelection("${request.method} ${request.servletPath}"))
+      LOG.trace("Set REST mapping into clip board")
       // combine them into real path
       NotificationService.notify("REST path copied", e.project!!)
     } catch (_: NoSuchElementException) {
+      LOG.error("No REST mapping found")
       NotificationService
         .createNotificationObject("No REST mapping found", NotificationType.WARNING)
         .notify(e.project)

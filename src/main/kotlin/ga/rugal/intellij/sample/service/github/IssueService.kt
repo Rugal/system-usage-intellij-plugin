@@ -9,18 +9,17 @@ object IssueService {
   private val LOG = Logger.getInstance(this::class.java)
 
   fun create(event: IdeaLoggingEvent, comment: String): GHIssue {
-    return GHIssue()
-//    return Setting.I.state.repository
-//      .createIssue(comment)
-//      .body(
-//        """
-//```
-//$event
-//```
-//      """.trim()
-//      )
-//      .assignee("Rugal")
-//      .label("report")
-//      .create()
+    return Setting.I.state.repository
+      .createIssue(comment)
+      .body(
+        """
+```
+$event
+```
+      """.trim()
+      )
+      .assignee("Rugal")
+      .label("report")
+      .create()
   }
 }

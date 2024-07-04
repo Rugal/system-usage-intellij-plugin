@@ -1,8 +1,8 @@
 package ga.rugal.intellij.sample.service
 
 import java.awt.datatransfer.DataFlavor
-import java.awt.datatransfer.StringSelection
 import ga.rugal.intellij.sample.service.PsiService.httpServletRequest
+import ga.rugal.intellij.sample.ui.action.CopyAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
@@ -79,10 +79,10 @@ class PsiServiceTest : BasePlatformTestCase() {
 
     assertNotNull(editor)
 
-    EditorTestUtil.executeAction(editor!!, "ga.rugal.intellij.sample.ui.action.RugalAction")
+    EditorTestUtil.executeAction(editor!!, CopyAction::class.java.name)
 
     CopyPasteManager.getInstance().getContents<String>(DataFlavor.stringFlavor).also {
-      assertEquals("/root/rugal", it)
+      assertEquals("GET /root/rugal", it)
     }
   }
 

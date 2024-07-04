@@ -25,7 +25,7 @@ dependencies {
 
   implementation("org.springframework.boot:spring-boot-starter-web:3.3.0")
 
-  implementation("org.kohsuke:github-api:1.321")
+  implementation("org.kohsuke:github-api:1.323")
 
   testImplementation(kotlin("test"))
 }

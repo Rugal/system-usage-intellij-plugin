@@ -32,8 +32,8 @@
               topic="ga.rugal.intellij.sample.messaging.DebugModeChangeNotifier"/>
   </projectListeners>
   <actions>
-    <action id="ga.rugal.intellij.sample.ui.action.RugalAction"
-            class="ga.rugal.intellij.sample.ui.action.RugalAction"
+    <action id="ga.rugal.intellij.sample.ui.action.CopyAction"
+            class="ga.rugal.intellij.sample.ui.action.CopyAction"
             text="Copy REST Path"
             description="Copy corresponding REST path">
       <add-to-group group-id="Copy.Paste.Special" anchor="last"/>

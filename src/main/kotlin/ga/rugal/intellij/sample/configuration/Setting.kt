@@ -7,6 +7,7 @@ import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.components.StoragePathMacros
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
 import com.intellij.util.xmlb.annotations.Transient
@@ -17,6 +18,8 @@ import org.kohsuke.github.GitHubBuilder
 @Service(Service.Level.PROJECT)
 @State(name = "SystemStatusMonitorSetting", storages = [(Storage(value = StoragePathMacros.WORKSPACE_FILE))])
 class Setting(val project: Project) : PersistentStateComponent<Setting.State> {
+  private val LOG = Logger.getInstance(this::class.java)
+
   companion object {
     val I: Setting
       get() = ProjectManager.getInstance().defaultProject.getService(Setting::class.java)
@@ -33,19 +36,15 @@ class Setting(val project: Project) : PersistentStateComponent<Setting.State> {
   data class State(
     var debugMode: Boolean = false,
   ) {
-    private val github: GitHub =
-      GitHubBuilder().withOAuthToken(
-        String(
-          Base64.getDecoder().decode(PluginPropertyService.get("github.token.base64"))
-        ).trim()
-      )
-        .build()
+    private val github: GitHub = GitHubBuilder()
+      .withOAuthToken(Base64.getDecoder().decode(PluginPropertyService.get("github.token.base64")).decodeToString().trim())
+      .build()
 
     private val repo: GHRepository =
       github.getRepositoryById(PluginPropertyService.get("github.repository.id").toLong())
 
-//    @get:Transient
-//    val repository: GHRepository
-//      get() = this.repo
+    @get:Transient
+    val repository: GHRepository
+      get() = this.repo
   }
 }

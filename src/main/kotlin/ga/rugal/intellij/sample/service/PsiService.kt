@@ -34,7 +34,7 @@ object PsiService {
 
   @get:Throws(NoSuchElementException::class)
   private val PsiMethod.targetAnnotation: PsiAnnotation
-    get() = this.annotations.first { PsiService.annotations.contains(it.qualifiedName!!) }
+    get() = this.annotations.first { PsiService.annotations.contains(it.qualifiedName!!.substringAfterLast(".")) }
 
   /**
    * Get {@code RequestMapping} or {@code XxxMapping} annotation from the given method.
@@ -43,31 +43,43 @@ object PsiService {
   fun getRequestAnnotation(method: PsiMethod): PsiAnnotation {
     try {
       // find target annotation from current method
+      LOG.trace("Try look for request annotation in current method")
       return method.targetAnnotation
     } catch (e: NoSuchElementException) {
+      LOG.trace("Current method does not have request annotation")
       // rethrow if no @Override annotation
-      if (method.getAnnotation(Override::class.java.simpleName) == null) throw e
+      if (method
+          .annotations
+          .none { it.qualifiedName?.substringAfterLast(".") == Override::class.java.simpleName }
+      ) {
+        LOG.info("Current method does not have @Override annotation")
+        throw e
+      }
     }
     // keep searching if method has @Override annotation
+    LOG.trace("Try look for request annotation in super methods")
     return method.findSuperMethods().firstNotNullOf { runCatching { it.targetAnnotation }.getOrNull() }
   }
 
   private fun getRequestMethod(annotation: PsiAnnotation): String {
     // for RequestMapping
     fun PsiAnnotation.method(): String = this.findAttributeValue("method")?.text
-      ?.let { if (it.contains(".")) it.substringAfter(".") else it } // could be RequestMethod.GET etc.,
+      ?.let { if (it.contains(".")) it.substringAfterLast(".") else it } // could be RequestMethod.GET etc.,
       ?: HttpMethod.GET.name()
 
     // for XXXMapping
-    fun PsiAnnotation.simpleName(): String = this.qualifiedName?.substringAfter(".")
+    fun PsiAnnotation.simpleName(): String = this.qualifiedName?.substringAfterLast(".")
       ?: GetMapping::class.java.simpleName
 
-    fun String.method(): String = this.substring(0, this.indexOf("Mapping")).uppercase()
+    fun String.method(): String = this.substringBefore("Mapping").uppercase()
     // determine if its RequestMapping
-    return if (annotation.qualifiedName == RequestMapping::class.java.simpleName)
+    return if (annotation.qualifiedName == RequestMapping::class.java.simpleName) {
+      LOG.trace("Get HTTP method from [RequestMapping::class]")
       annotation.method()
-    else
+    } else {
+      LOG.trace("Get HTTP method from [XxxMapping::class]")
       annotation.simpleName().method()
+    }
   }
 
   private val PsiAnnotation.path: String
@@ -76,9 +88,15 @@ object PsiService {
   private val PsiClass.requestMappingAnnotation: PsiAnnotation?
     get() = RequestMapping::class.java.simpleName.let { name ->
       // check current class
-      if (this.hasAnnotation(name)) this.getAnnotation(name)
-      // check base class and interfaces only one level
-      else this.supers.firstOrNull { it.hasAnnotation(name) }?.getAnnotation(name)
+      LOG.trace("Try to get RequestMapping annotation from class")
+      if (this.hasAnnotation(name)) {
+        LOG.debug("Try to get RequestMapping from ${this.name} class")
+        this.getAnnotation(name)
+        // check base class and interfaces only one level
+      } else {
+        LOG.debug("Try to get RequestMapping from supers")
+        this.supers.firstOrNull { it.hasAnnotation(name) }?.getAnnotation(name)
+      }
     }
 
   @get:Throws(NoSuchElementException::class)
@@ -90,6 +108,7 @@ object PsiService {
       // if this class has no base path, get base path from class, get class annotation
       val classAnnotation = this.containingClass!!.requestMappingAnnotation ?: return request
       // concatenate path
+      LOG.trace("Concatenate class and method REST mapping")
       return request.copy(
         path = "${classAnnotation.path}${request.servletPath}",
       )
