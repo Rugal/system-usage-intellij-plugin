@@ -45,7 +45,7 @@ object PsiService {
       return method.targetAnnotation
     } catch (e: NoSuchElementException) {
       // rethrow if no @Override annotation
-      if (method.getAnnotation(Override::class.java.name) == null) throw e
+      if (method.getAnnotation(Override::class.java.simpleName) == null) throw e
     }
     // keep searching if method has @Override annotation
     return method.findSuperMethods().firstNotNullOf { runCatching { it.targetAnnotation }.getOrNull() }
