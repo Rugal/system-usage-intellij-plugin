@@ -53,15 +53,17 @@ object PsiService {
 
   private fun getRequestMethod(annotation: PsiAnnotation): String {
     // for RequestMapping
-    fun PsiAnnotation.method(): String = this.findAttributeValue("method")?.text ?: HttpMethod.GET.name()
+    fun PsiAnnotation.method(): String = this.findAttributeValue("method")?.text
+      ?.let { if (it.contains(".")) it.substringAfter(".") else it } // could be RequestMethod.GET etc.,
+      ?: HttpMethod.GET.name()
 
     // for XXXMapping
-    fun PsiAnnotation.simpleName(): String = this.qualifiedName?.let { it.substring(it.lastIndexOf(".") + 1) }
+    fun PsiAnnotation.simpleName(): String = this.qualifiedName?.substringAfter(".")
       ?: GetMapping::class.java.simpleName
 
     fun String.method(): String = this.substring(0, this.indexOf("Mapping")).uppercase()
     // determine if its RequestMapping
-    return if (annotation.qualifiedName == RequestMapping::class.java.name)
+    return if (annotation.qualifiedName == RequestMapping::class.java.simpleName)
       annotation.method()
     else
       annotation.simpleName().method()
