@@ -26,10 +26,14 @@
     <!-- service-->
   </extensions>
 
+  <!-- Resource bundle for localization -->
+  <resource-bundle>messages</resource-bundle>
+
   <projectListeners>
     <listener class="ga.rugal.intellij.rest.messaging.listener.DebugModeListener"
               topic="ga.rugal.intellij.rest.messaging.DebugModeChangeNotifier"/>
   </projectListeners>
+
   <actions>
     <action id="ga.rugal.intellij.rest.ui.action.CopyAction"
             class="ga.rugal.intellij.rest.ui.action.CopyAction"

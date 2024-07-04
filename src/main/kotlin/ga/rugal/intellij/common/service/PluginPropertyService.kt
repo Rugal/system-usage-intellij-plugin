@@ -5,14 +5,14 @@ import org.jetbrains.annotations.PropertyKey
 import org.jetbrains.annotations.NonNls
 
 @NonNls
-private const val BUNDLE = "plugin"
+private const val BUNDLE_PLUGIN = "plugin"
 
-object PluginPropertyService : DynamicBundle(BUNDLE) {
+object PluginPropertyService : DynamicBundle(BUNDLE_PLUGIN) {
 
   @Suppress("SpreadOperator")
-  fun get(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any): String = getMessage(key, *params)
+  fun get(@PropertyKey(resourceBundle = BUNDLE_PLUGIN) key: String, vararg params: Any): String = getMessage(key, *params)
 
   @Suppress("SpreadOperator", "unused")
-  fun getPointer(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
+  fun getPointer(@PropertyKey(resourceBundle = BUNDLE_PLUGIN) key: String, vararg params: Any) =
     getLazyMessage(key, *params)
 }

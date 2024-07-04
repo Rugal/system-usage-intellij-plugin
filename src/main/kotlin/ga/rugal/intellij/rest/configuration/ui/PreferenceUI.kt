@@ -3,10 +3,11 @@ package ga.rugal.intellij.rest.configuration.ui
 import java.awt.BorderLayout
 import javax.swing.JCheckBox
 import javax.swing.JPanel
+import ga.rugal.intellij.common.service.Messages
 import ga.rugal.intellij.rest.configuration.Setting
 
 object PreferenceUI : JPanel() {
-  private val debugModeCheckBox: JCheckBox = JCheckBox("调试模式")
+  private val debugModeCheckBox: JCheckBox = JCheckBox(Messages["ui.debug.mode.text"])
 
   val debugMode
     get() = debugModeCheckBox.isSelected

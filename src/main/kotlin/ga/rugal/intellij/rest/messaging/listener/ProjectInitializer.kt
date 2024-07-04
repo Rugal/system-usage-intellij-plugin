@@ -12,7 +12,6 @@ class ProjectInitializer : ProjectActivity {
   private val LOG = Logger.getInstance(this::class.java)
 
   override suspend fun execute(project: Project) {
-
     RunOnceUtil.runOnceForProject(project, "CloudEnvironmentDetection") {
       LOG.trace("Determine execution environment")
 

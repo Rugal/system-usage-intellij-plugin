@@ -1,6 +1,7 @@
 package ga.rugal.intellij.rest.exception
 
 import java.awt.Component
+import ga.rugal.intellij.common.service.Messages
 import com.intellij.openapi.diagnostic.ErrorReportSubmitter
 import com.intellij.openapi.diagnostic.IdeaLoggingEvent
 import com.intellij.openapi.diagnostic.Logger
@@ -15,7 +16,7 @@ import ga.rugal.intellij.rest.service.github.IssueService
 class ErrorSubmitter : ErrorReportSubmitter() {
   private val LOG = Logger.getInstance(this::class.java)
 
-  override fun getReportActionText(): String = "Submit to Github"
+  override fun getReportActionText(): String = Messages["ui.error.report.action.text"]
 
   override fun submit(
     events: Array<out IdeaLoggingEvent>,
@@ -25,12 +26,12 @@ class ErrorSubmitter : ErrorReportSubmitter() {
   ): Boolean {
     ProgressManager.getInstance().run {
       runProcessWithProgressAsynchronously(
-        object : Task.Backgroundable(null, "Report to GitHub issue", false) {
+        object : Task.Backgroundable(null, Messages["ui.error.report.progress.text"], false) {
           override fun run(indicator: ProgressIndicator) {
             IssueService.create(events[0], additionalInfo ?: "Plugin user report")
           }
         },
-        BackgroundableProcessIndicator(null, "Reporting", "cancel", "tooltips", false)
+        BackgroundableProcessIndicator(null, Messages["ui.error.report.reporting.text"], "cancel", "tooltips", false)
       )
     }
     return true

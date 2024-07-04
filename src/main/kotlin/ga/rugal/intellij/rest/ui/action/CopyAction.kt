@@ -1,6 +1,7 @@
 package ga.rugal.intellij.rest.ui.action
 
 import java.awt.datatransfer.StringSelection
+import ga.rugal.intellij.common.service.Messages
 import ga.rugal.intellij.rest.configuration.Icon
 import ga.rugal.intellij.rest.service.NotificationService
 import ga.rugal.intellij.rest.service.PsiService
@@ -40,11 +41,11 @@ class CopyAction : AnAction("Copy REST Path", "Copy corresponding REST path", Ic
       CopyPasteManager.getInstance().setContents(StringSelection("${request.method} ${request.servletPath}"))
       LOG.trace("Set REST mapping into clip board")
       // combine them into real path
-      NotificationService.notify("REST path copied", e.project!!)
+      NotificationService.notify(Messages["ui.notification.copied.text"], e.project!!)
     } catch (_: NoSuchElementException) {
       LOG.error("No REST mapping found")
       NotificationService
-        .createNotificationObject("No REST mapping found", NotificationType.WARNING)
+        .createNotificationObject(Messages["ui.notification.not.found.text"], NotificationType.WARNING)
         .notify(e.project)
     }
   }
