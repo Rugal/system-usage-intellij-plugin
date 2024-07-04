@@ -3,6 +3,7 @@ package ga.rugal.intellij.sample.service
 import ga.rugal.intellij.sample.entity.DefaultHttpServletRequest
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.PsiAnnotation
+import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpMethod
@@ -72,6 +73,14 @@ object PsiService {
   private val PsiAnnotation.path: String
     get() = (this.findAttributeValue("value")?.text ?: this.findAttributeValue("path")?.text ?: "/").replace("\"", "")
 
+  private val PsiClass.requestMappingAnnotation: PsiAnnotation?
+    get() = RequestMapping::class.java.simpleName.let { name ->
+      // check current class
+      if (this.hasAnnotation(name)) this.getAnnotation(name)
+      // check base class and interfaces only one level
+      else this.supers.firstOrNull { it.hasAnnotation(name) }?.getAnnotation(name)
+    }
+
   @get:Throws(NoSuchElementException::class)
   val PsiMethod.httpServletRequest: HttpServletRequest
     get() {
@@ -79,9 +88,7 @@ object PsiService {
       val annotation: PsiAnnotation = getRequestAnnotation(this)
       val request = DefaultHttpServletRequest(getRequestMethod(annotation), annotation.path)
       // if this class has no base path, get base path from class, get class annotation
-      val classAnnotation =
-        this.containingClass!!.annotations.firstOrNull { it.qualifiedName == RequestMapping::class.java.simpleName }
-          ?: return request
+      val classAnnotation = this.containingClass!!.requestMappingAnnotation ?: return request
       // concatenate path
       return request.copy(
         path = "${classAnnotation.path}${request.servletPath}",

@@ -1,9 +1,12 @@
 package ga.rugal.intellij.sample.service
 
+import java.awt.datatransfer.DataFlavor
+import java.awt.datatransfer.StringSelection
 import ga.rugal.intellij.sample.service.PsiService.httpServletRequest
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
+import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiMethod
 import com.intellij.testFramework.EditorTestUtil
@@ -12,6 +15,15 @@ import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
 @TestDataPath("\$PROJECT_ROOT/src/test/resources/copy")
 class PsiServiceTest : BasePlatformTestCase() {
+
+  fun testOverrideGetWithRequest() {
+    myFixture.configureByFile("OverrideGetWithRequest.java")
+    val element = myFixture.elementAtCaret as PsiMethod
+    element.httpServletRequest.also {
+      assertEquals("/root/rugal", it.servletPath)
+      assertEquals("GET", it.method)
+    }
+  }
 
   fun testOverrideGetWithoutRequest() {
     myFixture.configureByFile("OverrideGetWithoutRequest.java")
@@ -68,8 +80,11 @@ class PsiServiceTest : BasePlatformTestCase() {
     assertNotNull(editor)
 
     EditorTestUtil.executeAction(editor!!, "ga.rugal.intellij.sample.ui.action.RugalAction")
-  }
 
+    CopyPasteManager.getInstance().getContents<String>(DataFlavor.stringFlavor).also {
+      assertEquals("/root/rugal", it)
+    }
+  }
 
   override fun getTestDataPath() = "src/test/resources/copy"
 }
