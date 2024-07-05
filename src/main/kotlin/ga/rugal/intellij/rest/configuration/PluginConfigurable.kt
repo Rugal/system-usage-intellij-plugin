@@ -1,12 +1,12 @@
 package ga.rugal.intellij.rest.configuration
 
 import javax.swing.JComponent
-import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.options.Configurable
 import ga.rugal.intellij.common.service.PluginPropertyService
 import ga.rugal.intellij.rest.configuration.ui.PreferenceUI
 import ga.rugal.intellij.rest.messaging.DebugModeChangeNotifier
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.options.Configurable
 
 class PluginConfigurable : Configurable {
   private val LOG = Logger.getInstance(this::class.java)
@@ -16,6 +16,12 @@ class PluginConfigurable : Configurable {
   override fun isModified(): Boolean = Setting.I.state.debugMode != PreferenceUI.debugMode
 
   override fun getDisplayName(): String = PluginPropertyService.get("name")
+
+  override fun reset() {
+    PreferenceUI.debugMode = Setting.I.state.debugMode
+  }
+
+  override fun cancel() = this.reset()
 
   override fun apply() {
     LOG.debug("Apply storage ${Setting.I.state.debugMode} UI ${PreferenceUI.debugMode}")

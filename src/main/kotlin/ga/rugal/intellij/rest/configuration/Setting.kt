@@ -36,15 +36,23 @@ class Setting(val project: Project) : PersistentStateComponent<Setting.State> {
   data class State(
     var debugMode: Boolean = false,
   ) {
-    private val github: GitHub = GitHubBuilder()
-      .withOAuthToken(Base64.getDecoder().decode(PluginPropertyService.get("github.token.base64")).decodeToString().trim())
-      .build()
+    private val github: GitHub by lazy {
+      GitHubBuilder()
+        .withOAuthToken(
+          Base64
+            .getDecoder()
+            .decode(PluginPropertyService.get("github.token.base64"))
+            .decodeToString()
+            .trim()
+        )
+        .build()
+    }
 
-    private val repo: GHRepository =
+    private val repo: GHRepository by lazy {
       github.getRepositoryById(PluginPropertyService.get("github.repository.id").toLong())
+    }
 
     @get:Transient
-    val repository: GHRepository
-      get() = this.repo
+    val repository: GHRepository? = runCatching { this.repo }.getOrNull()
   }
 }

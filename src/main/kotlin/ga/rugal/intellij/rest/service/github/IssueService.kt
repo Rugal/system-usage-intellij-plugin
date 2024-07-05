@@ -9,7 +9,7 @@ object IssueService {
   private val LOG = Logger.getInstance(this::class.java)
 
   fun create(event: IdeaLoggingEvent, comment: String): GHIssue {
-    return Setting.I.state.repository
+    return Setting.I.state.repository!!
       .createIssue(comment)
       .body(
         """
