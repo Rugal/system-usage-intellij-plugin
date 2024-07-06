@@ -10,7 +10,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- error reporting-->
-    <errorHandler implementation="ga.rugal.intellij.rest.exception.ErrorSubmitter"/>
+<!--    <errorHandler implementation="ga.rugal.intellij.rest.exception.ErrorSubmitter"/>-->
     <!-- project post startup-->
     <postStartupActivity implementation="ga.rugal.intellij.rest.messaging.listener.ProjectInitializer"/>
     <!-- persistent setting-->
